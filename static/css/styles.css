@@ -1,0 +1,52 @@
+/*При работе с CSS должно быть
+продемонстрировано использование
+ - селекторов псевдоэлементов,
+ - селекторов идентификаторов,
+ - селекторов псевдоклассов,
+ - селекторов атрибутов
+ а также такие свойства стилей CSS, как
+ - наследование и
+ - каскадирование.*/
+/*Отступы элементов ввода
+ должны задаваться в пикселях.*/
+html, body {
+/*.container {*/
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Arial", sans-serif;
+    background-color: whitesmoke;
+    background-size: cover;
+}
+table {
+    width: 100%; /* ширина для табличек */
+    /*height: 100%;*/
+    /* если на height убрать коммент – фигня растянется на всю страницу.
+    TODO Сделать отдельные классы, отделить части, где нужна 100% высота и где нет */
+    border-collapse: collapse; /* Убирает промежутки между ячейками */
+}
+td {
+    border: 2px solid #122028;
+    text-align: center;
+}
+#header-container {
+    font-family: "Arial Black", fantasy;
+    background-color: #122028;
+
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+}
+.pink-header {
+    color: #e31043;
+}
+.author-info {
+    padding: 15px
+}
+.info {
+    background-color: lightblue;
+    padding: 20px;
+    /*text-align: center;*/
+}
