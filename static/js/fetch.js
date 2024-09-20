@@ -75,7 +75,7 @@ document.getElementById('data-form').addEventListener('submit', async function (
     }
 
 
-    const table = document.getElementById('result-table');
+    const table = document.getElementById('result');
 
     const newRow = table.insertRow(-1);
 
@@ -83,6 +83,9 @@ document.getElementById('data-form').addEventListener('submit', async function (
     const rowY = newRow.insertCell(1);
     const rowR = newRow.insertCell(2);
     const rowResult = newRow.insertCell(3);
+
+    const rowCurTime = newRow.insertCell(4);
+    const rowExecutionTime = newRow.insertCell(5);
 
     rowX.innerText = state.x;
     rowY.innerText = state.y;
@@ -95,6 +98,8 @@ document.getElementById('data-form').addEventListener('submit', async function (
     if (response.ok) {
         const result = await response.json();
         rowResult.textContent = result.result.toString();
+        rowCurTime.textContent = result.currentTime.toString();
+        rowExecutionTime.textContent = (result.executionTimeMs / 1000000000).toString() + ' cекунд';
     } else if (response.status === 400) {
         const result = await response.json();
         rowResult.textContent = `error: ${result.reason}`;
@@ -107,8 +112,6 @@ document.getElementById('data-form').addEventListener('submit', async function (
 /* ЗДЕСЬ НАЧИНАЕТСЯ ЧАСТЬ С ГРАФИКОМ*/
 /**/
 
-const x_zero = document.getElementById('svg').getAttribute('width') / 2;
-const y_zero = document.getElementById('svg').getAttribute('height') / 2;
 
 function updateShapes() {
     /* get radius */

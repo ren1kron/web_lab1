@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
     private static final String HTTP_RESPONSE = """
@@ -23,7 +25,9 @@ public class Main {
             """;
     private static final String RESULT_JSON = """
             {
-                "result": %b
+                "result": %b,
+                "currentTime": "%s",
+                "executionTimeMs": %d
             }
             """;
     private static final String ERROR_JSON = """
@@ -36,9 +40,18 @@ public class Main {
 
     public static void main(String[] args) {
         var fcgi = new FCGIInterface();
+
+
         log.error("HUI");
         while (fcgi.FCGIaccept() >= 0) {
             try {
+        long startTime = System.nanoTime();
+
+                // Получаем текущее время
+                LocalDateTime currentTime = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String formattedTime = currentTime.format(formatter);
+
                 var queryParams = System.getProperties().getProperty("QUERY_STRING");
                 log.error("Got information: {}", queryParams);
                 var params = new Params(queryParams);
@@ -48,7 +61,13 @@ public class Main {
 
                 var result = calculate(params.getX(), params.getY(), params.getR());
 
-                var json = String.format(RESULT_JSON, result);
+                // Расчёт времени выполнения
+                long endTime = System.nanoTime();
+//                long duration = (endTime - startTime) / 1_000_000_000; // Время в секундах
+//                double duration = (endTime - startTime) / 1_000_000_000; // Время в секундах
+                long duration = (endTime - startTime); // Время в наносекундах (?)
+
+                var json = String.format(RESULT_JSON, result, formattedTime, duration);
                 var response = String.format(HTTP_RESPONSE, json.getBytes(StandardCharsets.UTF_8).length + 2, json);
                 System.out.println(response);
                 log.error(response);
@@ -91,29 +110,5 @@ public class Main {
             }
         }
         return true;
-//        if (x < 0 && y > 0) {
-//            log.error("not true");
-//            return false;
-//        }
-//        if (x > 0 && y < 0) {
-//            if ((x * x + y * y) > (r / 2) * (r / 2)) {
-//                log.error("not true");
-//                return false;
-//            }
-//        }
-//        if (x < 0 && y < 0) {
-//            if ((x / 2 + y) < -r / 2) {
-//                log.error("not true");
-//                return false;
-//            }
-//        }
-//        if (x < 0 && y > 0) {
-//            if (x < -r / 2 || y > r) {
-//                log.error("not true");
-//                return false;
-//            }
-//        }
-//        log.error("true");
-//        return true;
     }
 }

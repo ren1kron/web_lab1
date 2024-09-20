@@ -27,15 +27,17 @@
         <td>
             <form method="get" action="/" id="data-form">
                 <label for="x">Enter X:</label>
-                <input type="text" id="x" name="x" required>
+                <input type="text" placeholder="enter a number from -3 to 3" id="x" name="x" required>
 
                 <section id="errorX" hidden></section>
                 <p></p>
 
                 <label for="y">Enter Y:</label>
-                <input type="text" id="y" name="y" required>
+                <input type="text" placeholder="enter a number from -5 to 3" id="y" name="y" required>
 
                 <section id="errorY" hidden></section>
+
+                <!-- TODO заменить это гавно на css-->
                 <p></p>
 
                 <label for="r">Select R:</label>
@@ -50,7 +52,7 @@
 
                 <p></p>
 
-                <button type="submit">Submit</button>
+                <button type="submit" class="styled-button">Submit</button>
             </form>
         </td>
 
@@ -118,7 +120,7 @@
 </table>
 
 <!-- Result Table -->
-<table id="result-table">
+<table class="result-table" id="result-table">
     <!--    <table id="result-table">-->
     <thead>
     <tr>
@@ -127,7 +129,7 @@
         <th>R</th>
         <th>Попадание</th>
         <th>Время запроса</th>
-        <th>Время работы скрипта</th>
+        <th>Время работы скрипта (в с)</th>
     </tr>
     </thead>
     <tbody id="result">
@@ -136,7 +138,10 @@
 </table>
 
 <footer>
-    <p>All rights and privileges are reserved for the inner circle of the President. As we are in Russia</p>
+    <section id="footer-content">
+        <p>© 2024 Web Lab 1 by ren1kron. All rights and privileges are reserved for the inner circle of the President.</p>
+        <p>'cause we are in Russia</p>
+    </section>
 </footer>
 
 <script type="text/javascript" src="js/fetch.js"></script>
