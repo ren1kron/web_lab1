@@ -41,7 +41,6 @@
                 <p></p>
 
                 <label for="r">Select R:</label>
-<!--                <select id="r" name="r" required onchange="updateShapes()">-->
                 <select id="r" name="r" required>
                     <option value="1">1</option>
                     <option value="1.5">1.5</option>
@@ -60,7 +59,6 @@
         <td>
 <!--            <canvas id="graph" width="400" height="400"></canvas>-->
             <svg xmlns="http://www.w3.org/2000/svg" id="svg" width="300" height="300">
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" id="svg" width="500" height="500">-->
                 <!-- triangle-->
                 <polygon id="triangle" points="150,150 210,150 150,90" fill="#122028" fill-opacity="0.6"></polygon>
 
@@ -73,11 +71,9 @@
                 <line x1="0" y1="150" x2="300" y2="150" stroke="#122028"></line>
                 <!--Y line-->
                 <line x1="150" y1="0" x2="150" y2="300" stroke="#122028"></line>
-<!--                <line x1="270" y1="148" x2="270" y2="152" stroke="#122028"></line>-->
-<!--                <text x="265" y="140">R</text>-->
+
                 <line x1="110" y1="148" x2="110" y2="152" stroke="#122028"></line> <!-- -1 point on x -->
                 <line x1="190" y1="148" x2="190" y2="152" stroke="#122028"></line> <!-- 1 point on x -->
-<!--                <line x1="210" y1="148" x2="210" y2="152" stroke="#122028"></line>-->
                 <text x="105" y="140">-1</text> <!-- '-1' on x -->
                 <text x="185" y="140">1</text> <!-- '1' on x -->
 
@@ -111,7 +107,7 @@
                 <polygon points="150,0 145,5 155,5" fill="#000720" stroke="#000720"></polygon>
 
 
-                <!-- точка результата-->
+                <!-- Point-->
                 <circle id="pointer" r="5" cx="150" cy="150" fill-opacity="0.9" fill="red" stroke="firebrick"
                         visibility="hidden"></circle>
             </svg>
@@ -145,7 +141,5 @@
 </footer>
 
 <script type="text/javascript" src="js/fetch.js"></script>
-<!--<script type="text/javascript" src="js/graph.js"></script>-->
-<!--<script type="text/javascript" src="js/validation.js"></script>-->
 </body>
 </html>

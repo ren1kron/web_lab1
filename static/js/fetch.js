@@ -6,9 +6,6 @@ const state = {
     r: 1.0,
 };
 
-// const error = document.getElementById('error');
-// const possibleXs = new Set([-3, -2, -1, 0, 1, 2, 3, 4, 5]);
-// const possibleRs = new Set([1.0, 1.5, 2.0, 2.5, 3.0]);
 
 function validateState() {
     if (isNaN(state.x) || state.x < -3 || state.x > 3) {
@@ -66,11 +63,9 @@ document.getElementById('r').addEventListener('change', (ev) => {
 document.getElementById('data-form').addEventListener('submit', async function (ev) {
     ev.preventDefault();
 
-    // validateState(state);
-    // validateX();
-    // validateY();
     if (!validateState()) {
-        alert('пошёл нахуй');
+        // alert('пошёл нахуй');
+        alert('Sorry, you are not able to submit your variables. Some of them are invalid.')
         return;
     }
 
@@ -97,9 +92,16 @@ document.getElementById('data-form').addEventListener('submit', async function (
 
     if (response.ok) {
         const result = await response.json();
+
         rowResult.textContent = result.result.toString();
+        if (result.result) {
+            rowResult.textContent = 'Попал';
+        } else {
+            rowResult.textContent = 'Промазал'
+        }
+
         rowCurTime.textContent = result.currentTime.toString();
-        rowExecutionTime.textContent = (result.executionTimeMs / 1000000000).toString() + ' cекунд';
+        rowExecutionTime.textContent = (result.executionTimeMs / 1_000_000_000).toString();
     } else if (response.status === 400) {
         const result = await response.json();
         rowResult.textContent = `error: ${result.reason}`;
@@ -108,14 +110,12 @@ document.getElementById('data-form').addEventListener('submit', async function (
     }
 });
 
+
 /**/
 /* ЗДЕСЬ НАЧИНАЕТСЯ ЧАСТЬ С ГРАФИКОМ*/
 /**/
-
-
 function updateShapes() {
     /* get radius */
-    // const radius = state.r * 120;
     const radius = state.r * 40;
 
 
@@ -131,18 +131,8 @@ function updateShapes() {
     const quarterCirclePath = `M 150 150 L ${150 - radius} 150 A ${radius} ${radius} 0 0 1 150 ${150 - radius} Z`;
     document.getElementById('quarterCircle').setAttribute('d', quarterCirclePath);
 
-    /* TODO update points on axis*/
 }
 
-
-// document.getElementById('r').addEventListener('change', updateShapes);
-// window.onload = updateShapes;
-// Инициализация при загрузке страницы с радиусом по умолчанию
-// window.onload = function() {
-//     document.getElementById('r').addEventListener('change', updateShapes);
-//
-//     updateShapes();
-// };
 
 window.onload = function() { /* this func matches figure to selected Radius after refreshing page */
     // Получаем текущее значение r из поля ввода

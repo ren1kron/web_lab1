@@ -1,8 +1,6 @@
 package org.ren1kron;
 
 import com.fastcgi.FCGIInterface;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -35,17 +33,12 @@ public class Main {
                 "reason": "%s"
             }
             """;
-    private static final Logger log = LogManager.getLogger(Main.class);
-
 
     public static void main(String[] args) {
         var fcgi = new FCGIInterface();
-
-
-        log.error("HUI");
         while (fcgi.FCGIaccept() >= 0) {
             try {
-        long startTime = System.nanoTime();
+                long startTime = System.nanoTime();
 
                 // Получаем текущее время
                 LocalDateTime currentTime = LocalDateTime.now();
@@ -53,29 +46,23 @@ public class Main {
                 String formattedTime = currentTime.format(formatter);
 
                 var queryParams = System.getProperties().getProperty("QUERY_STRING");
-                log.error("Got information: {}", queryParams);
                 var params = new Params(queryParams);
 
-                log.error("Received parameters: x = {}, y = {}, r = {}", params.getX(), params.getY(), params.getR());
 
 
                 var result = calculate(params.getX(), params.getY(), params.getR());
 
                 // Расчёт времени выполнения
                 long endTime = System.nanoTime();
-//                long duration = (endTime - startTime) / 1_000_000_000; // Время в секундах
-//                double duration = (endTime - startTime) / 1_000_000_000; // Время в секундах
-                long duration = (endTime - startTime); // Время в наносекундах (?)
+                long duration = (endTime - startTime); // Время выполнения в наносекундах
 
                 var json = String.format(RESULT_JSON, result, formattedTime, duration);
                 var response = String.format(HTTP_RESPONSE, json.getBytes(StandardCharsets.UTF_8).length + 2, json);
                 System.out.println(response);
-                log.error(response);
             } catch (ValidationException e) {
                 var json = String.format(ERROR_JSON, e.getMessage());
                 var response = String.format(HTTP_ERROR, json.getBytes(StandardCharsets.UTF_8).length + 2, json);
                 System.out.println(response);
-                log.error(response);
             }
         }
     }
