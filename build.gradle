@@ -42,7 +42,6 @@ jar {
         }
     }
     archiveFileName = 'web_lab1.jar'
-
 }
 
 test {

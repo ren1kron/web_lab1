@@ -64,7 +64,6 @@ document.getElementById('data-form').addEventListener('submit', async function (
     ev.preventDefault();
 
     if (!validateState()) {
-        // alert('пошёл нахуй');
         alert('Sorry, you are not able to submit your variables. Some of them are invalid.')
         return;
     }
@@ -89,6 +88,7 @@ document.getElementById('data-form').addEventListener('submit', async function (
     const params = new URLSearchParams(state);
 
     const response = await fetch('/calculate/app.jar?' + params.toString());
+    // const response = await fetch('/fcgi-bin/web_lab1.jar?' + params.toString());
 
     if (response.ok) {
         const result = await response.json();
@@ -105,8 +105,10 @@ document.getElementById('data-form').addEventListener('submit', async function (
     } else if (response.status === 400) {
         const result = await response.json();
         rowResult.textContent = `error: ${result.reason}`;
+        console.error(response.status + " " + response.statusText);
     } else {
         rowResult.textContent = `error: ${response.statusText}`;
+        console.error(response.status + " " + response.statusText);
     }
 });
 
@@ -148,15 +150,18 @@ window.onload = function() { /* this func matches figure to selected Radius afte
         state.x = parseFloat(ev.target.value);
         // updateShapes();
         validateX();
+        drawPoint();
     });
     document.getElementById('y').addEventListener('change', (ev) => {
         state.y = parseFloat(ev.target.value);
         // updateShapes();
         validateY();
+        drawPoint();
     });
 
     // Обновляем фигуры на графике при загрузке страницы
     updateShapes();
+    drawPoint();
 };
 
 
@@ -185,6 +190,3 @@ function drawPoint() {
     pointElement.setAttribute('cx', scaledX);
     pointElement.setAttribute('cy', scaledY);
 }
-
-document.getElementById('x').addEventListener('change', drawPoint);
-document.getElementById('y').addEventListener('change', drawPoint);
